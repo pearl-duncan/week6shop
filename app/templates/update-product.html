@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container col-4 border mt-5">
+    <h2>Update your product</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.title(class='form-control', placeholder='Title', value='p.title') }}
+
+        {{ form.img_url(class='form-control', placeholder='Image Url', value='p.img_url') }}
+
+        {{ form.description(class='form-control', placeholder='Description', value='p.description') }}
+
+        {{ form.price(class='form-control', placeholder='Price', value='p.price') }}
+
+        
+        <div class="d-grid gap-2 my-3">
+            {{ form.submit(class='btn btn-primary') }}
+        </div>
+    </form>
+</div>
+
+
+
+
+{% endblock %}

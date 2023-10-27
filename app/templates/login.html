@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container col-4 border mt-5">
+  <h2>login page</h2>
+  <form method="POST" action="/login">
+    {{ form.hidden_tag() }}
+  
+      {{ form.username.label(class='form-label') }}
+      {{ form.username(class='form-control', placeholder='Username') }}
+    
+      {{ form.password.label(class='form-label') }}
+      {{ form.password(class='form-control', placeholder='Password') }}
+    
+      <div class="d-grid gap-2 my-3">
+          {{ form.submit(class='btn btn-primary') }}
+      </div>
+
+      <a class='btn btn-stuccess' href="/signup">Don't have an accout? Sign up here</a>
+  </div>
+  </form>
+
+
+
+
+
+{% endblock %}
