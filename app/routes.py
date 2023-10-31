@@ -32,23 +32,32 @@ def create_product():
 @app.route('/')
 def home():
     product = Product.query.all()
+    print(product)
     return render_template('home.html', p=product)
 
-@app.route('/addToCart')
+@app.route('/addToCart/<product_id>')
 def addToCart(product_id):
-    product = Product.get(product_id)
+    product = product_id
     user = current_user.id
-    cart = Cart(product, user)
+    cart = Cart(user, product)
 
     db.session.add(cart)
     db.session.commit()
+    print(cart)
 
-    flash('Successfully created a product!', 'success')
+    flash('Successfully added a product to cart!', 'success')
     return redirect(url_for('cart'))
 
 
 
 @app.route('/cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    total = 0
+    for item in current_user.my_cart:
+        total += int(item.in_cart.price)
+
+    return render_template('cart.html', cart=current_user.my_cart, total=total,)
 
 @app.route('/product/<product_id>')
 @login_required
@@ -103,4 +112,11 @@ def delete_product(product_id):
     flash('Successfully deleted your product!', 'success')
     return redirect(url_for('home'))
 
+@app.route('/cart/delete', methods=['GET', 'POST'])
+@login_required
+def delete_cart():
+    current_user.my_cart = []
+    db.session.commit()
+    flash('Successfully deleted your cart!', 'success')
+    return redirect(url_for('home'))
 

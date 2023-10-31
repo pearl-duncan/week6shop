@@ -5,13 +5,16 @@
 {% block content %}
 <div class="container col-4 border mt-5">
    {% for p in cart %}
-        <img src="{{ p.img_url }}" class="card-img-top" alt="{{ p.title }}">
+        <img src="{{ p.in_cart.img_url }}" class="card-img-top" alt="{{ p.in_cart.title }}">
         <div class="card-body">
-            <h5 class="card-title">{{ p.title }}</h5>
-            <p class="card-text">{{ p.description }}</p>
-            <h6 class="card-subtitle mb-2 text-body-secondary">{{ p.price }}</h6>
+            <h5 class="card-title">{{ p.in_cart.title }}</h5>
+            <p class="card-text">{{ p.in_cart.description }}</p>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ p.in_cart.price }}</h6>
         </div>
-    </a>
    {% endfor %}
+   <h3>Cart total: ${{ total }}</h3>
+   <a type="submit" class="btn btn-primary" href="{{ url_for('delete_cart') }}">
+    Delete Cart
+    </a>
 </div>
 {% endblock %}
