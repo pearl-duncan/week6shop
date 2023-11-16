@@ -14,12 +14,11 @@ def signup():
     if request.method == 'POST':
         flash("Form Submitted!", 'success')
         if form.validate():
-            first_name = form.first_name.data
             username = form.username.data
             email = form.email.data
             password = form.password.data
 
-            user = User(first_name, username, email, password)
+            user = User(username, email, password)
 
             db.session.add(user)
             db.session.commit()

@@ -8,11 +8,12 @@ from flask_cors import CORS
 
 #import blueprints
 from .auth import auth
+from .api import api
 
 app = Flask(__name__)
 app.config.from_object(Config)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-app.register_blueprint(auth)
+
 
 
 db.init_app(app)
@@ -23,6 +24,9 @@ moment = Moment(app)
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
+
+app.register_blueprint(auth)
+app.register_blueprint(api)
 
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Please log in to access this page!'

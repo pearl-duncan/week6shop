@@ -7,7 +7,6 @@ db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
@@ -17,11 +16,18 @@ class User(db.Model, UserMixin):
 
 
 
-    def __init__(self, first_name, username, email, password):
-        self.first_name = first_name
+    def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = password
+
+    def to_dict(self):
+        return {
+            'email': self.email,
+            'username': self.username,
+            'password': self.password
+        }
+        
     
 
 
@@ -44,6 +50,17 @@ class Product(db.Model):
         self.price = price
 
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'img_url': self.img_url,
+            'description': self.description,
+            'price': self.price,
+            'date_created': self.date_created,
+            'last_updated': self.last_updated
+        }
+
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -59,12 +76,8 @@ class Cart(db.Model):
         
     def to_dict(self):
         return {
-            'title': self.product.title,
-            'description': self.product.description,
-            'img_url': self.product.img_url,
-            'user_id': self.user_id,
-            'date_created': self.date_created,
-            'last_updated': self.last_updated,
-            'total': self.cart_total()
+            'products': self.products.to_dict(),
+            'total': self.cart_total(),
+            'owner': self.user_id
         }
     
